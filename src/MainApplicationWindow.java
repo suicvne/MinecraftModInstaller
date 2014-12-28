@@ -60,8 +60,6 @@ public class MainApplicationWindow {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				break;
 			case Linux:
-				//UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-				//UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				break;
 			case MacOS:

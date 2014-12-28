@@ -1,7 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -157,6 +159,9 @@ public class ModSelectionWindow extends JFrame
 		lblProgress.setName("mainProgressLabel");
 		lblProgress.setBounds(10, 375, 213, 14);
 		contentPane.add(lblProgress);
+		//
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 	}
 	
 	private void removeModButtonClick()
