@@ -16,6 +16,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>appbundler-1.0.jar</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/appbundler-1.0.jar</locationURI>
+		</link>
+		<link>
 			<name>commons-io-2.4.jar</name>
 			<type>1</type>
 			<locationURI>PARENT_LOC/commons-io-2.4.jar</locationURI>
@@ -31,9 +36,19 @@
 			<locationURI>PARENT_LOC/json-simple-1.1.1.jar</locationURI>
 		</link>
 		<link>
+			<name>orange-extensions-1.3.0.jar</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/orange-extensions-1.3.0.jar</locationURI>
+		</link>
+		<link>
 			<name>zip4j_1.3.2.jar</name>
 			<type>1</type>
 			<locationURI>PROJECT_LOC/zip4j_1.3.2.jar</locationURI>
+		</link>
+		<link>
+			<name>src/OSXAdapter.java</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/src/OSXAdapter.java</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

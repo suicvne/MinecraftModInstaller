@@ -1,7 +1,9 @@
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.List;
+import java.awt.Toolkit;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -46,9 +48,9 @@ public class MainApplicationWindow {
 	public static void main(String[] args) 
 	{
 		//Try and set the look and feel
-		///com.sun.java.swing.plaf.gtk.GTKLookAndFeel
-		///com.sun.java.swing.plaf.motif.MotifLookAndFeel
-		///com.sun.java.swing.plaf.windows.WindowsLookAndFeel
+		///com.sun.java.swing.plaf.gtk.GTKLookAndFeel - generally looks acceptable on Linux
+		///com.sun.java.swing.plaf.motif.MotifLookAndFeel - ugly
+		///com.sun.java.swing.plaf.windows.WindowsLookAndFeel - looks almost like a real windows application
 		
 		try
 		{
@@ -79,23 +81,28 @@ public class MainApplicationWindow {
 				System.out.println("what the hell dude, i've tried everything and it looks like you don't even have the cross platform look and feel");
 			}
 		}
-		
-		//Run the form
-		EventQueue.invokeLater(new Runnable() 
+		if(args.length > 0) //ensures that we're only run via the command line
 		{
-			public void run() 
+			if(args[0].equals("-cmdLine"))
 			{
-				try 
+				//Run the form
+				EventQueue.invokeLater(new Runnable() 
 				{
-					MainApplicationWindow window = new MainApplicationWindow();
-					window.frmMinecraftModInstaller.setVisible(true);
-				} 
-				catch (Exception e) 
-				{
-					e.printStackTrace();
-				}
+					public void run() 
+					{
+						try 
+						{
+							MainApplicationWindow window = new MainApplicationWindow();
+							window.frmMinecraftModInstaller.setVisible(true);
+						} 
+						catch (Exception e) 
+						{
+							e.printStackTrace();
+						}
+					}
+				});
 			}
-		});
+		}
 	}
 
 	/**
@@ -103,10 +110,17 @@ public class MainApplicationWindow {
 	 */
 	public MainApplicationWindow() 
 	{
+		//
 		initialize();
+		//
+		//frmMinecraftModInstaller.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("res/icon.png")));
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        frmMinecraftModInstaller.setLocation(dim.width/2-frmMinecraftModInstaller.getSize().width/2, dim.height/2-frmMinecraftModInstaller.getSize().height/2);
 		//do form load events
-		
-		System.out.println("current operating system is probably " + OsCheck.getOperatingSystemType().name());
+		if(OsCheck.getOperatingSystemType() == OsCheck.OSType.MacOS)
+			System.out.println("current operating system is probably " + OsCheck.getOperatingSystemType().name() + ", you lucky bastard");
+		else
+			System.out.println("current operating system is probably " + OsCheck.getOperatingSystemType().name());
 		
 		if(OsCheck.getOperatingSystemType() == OsCheck.OSType.Windows)
 		{
@@ -203,7 +217,43 @@ public class MainApplicationWindow {
 			JOptionPane.showMessageDialog(null, "dlVerList is null for some reason");
 		}
 	}
+	private void LoadFromOSX()
+	{
+		
+	}
 	
+	/*
+	 * OS X Specific Voids that we don't really need to worry about after setting
+	 */
+	private void OSXSpecifics()
+	{
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Minecraft Mod Installer");
+        com.apple.eawt.Application app = new com.apple.eawt.Application();
+        app.setDockIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("res/icon.png")));
+        try
+        {
+            OSXAdapter.setAboutHandler(this, getClass().getDeclaredMethod("showAbout", (Class[])null));
+            OSXAdapter.setQuitHandler(this, getClass().getDeclaredMethod("quitApp", (Class[])null));
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+	}
+	public void showAbout()
+	{
+		JOptionPane.showMessageDialog(frmMinecraftModInstaller,
+				"Not yet!",
+				"Minecraft Mod Installer",
+				JOptionPane.ERROR_MESSAGE);
+	}
+	public Boolean quitApp()
+	{
+		return true;
+	}
+	/*
+	 * End OS X Specifics
+	 */
 	
 	/**
 	 * Initialize the contents of the frame.
