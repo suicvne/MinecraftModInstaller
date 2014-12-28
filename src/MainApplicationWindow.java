@@ -59,7 +59,8 @@ public class MainApplicationWindow {
 				break;
 			case Linux:
 				//UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-				UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+				//UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				break;
 			case MacOS:
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -418,6 +419,10 @@ public class MainApplicationWindow {
 			System.out.println("copying '" + jar_old + "' to '" + jar + "'");
 			FileUtils.moveFile(json_old, json);
 			System.out.println("copying '" + json_old + "' to '" + json + "'");
+			FileUtils.copyFile(json, new File(json.getAbsolutePath() + "_backup"));
+			System.out.println("backing up the new json just in case");
+			JSONEditor.JSONEditor(json.getAbsolutePath(), "id", newProfileName);
+			System.out.println("editing the new json");
 			successOrNaw = 0;
 		}
 		catch(Exception ex)
