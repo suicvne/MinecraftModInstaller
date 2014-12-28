@@ -1,0 +1,14 @@
+1. Pick profile
+2. If it matches one of the default version profiles, offer to create a new profile
+3. Install mod
+4. Edit JSON
+5. ???
+6. Profit
+
+However, there's alot more to it than just installing the mod
+1. locate the jar and rename it to a .zip so we can safely extract it.
+2. Once it's extracted, we have to extract the individual mods to temp folders and copy their contents inside of the folder that contains our extracted jar
+3. Re-compress the jar to a zip
+4. Backup the old jar
+5. Delete the current (not the backup)
+6. Rename the zip to reflect the old jar name

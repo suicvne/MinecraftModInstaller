@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>Minecraft Mod Installer</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>commons-io-2.4.jar</name>
+			<type>1</type>
+			<locationURI>PARENT_LOC/commons-io-2.4.jar</locationURI>
+		</link>
+		<link>
+			<name>gson-2.2.4.jar</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/gson-2.2.4.jar</locationURI>
+		</link>
+		<link>
+			<name>json-simple-1.1.1.jar</name>
+			<type>1</type>
+			<locationURI>PARENT_LOC/json-simple-1.1.1.jar</locationURI>
+		</link>
+		<link>
+			<name>zip4j_1.3.2.jar</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/zip4j_1.3.2.jar</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
