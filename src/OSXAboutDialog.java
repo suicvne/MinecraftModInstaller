@@ -63,7 +63,7 @@ public class OSXAboutDialog extends JFrame
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblMinecraftModInstaller = new JLabel("Minecraft Mod Installer");
-		lblMinecraftModInstaller.setBounds(144, 149, 170, 15);
+		lblMinecraftModInstaller.setBounds(165, 151, 117, 15);
 		contentPane.add(lblMinecraftModInstaller);
 		//centres the screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
