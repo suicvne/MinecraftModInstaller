@@ -217,7 +217,7 @@ public class MainApplicationWindow {
 	}
 	private void LoadFromOSX()
 	{
-		
+		OSXSpecifics();
 	}
 	
 	/*
@@ -240,10 +240,8 @@ public class MainApplicationWindow {
 	}
 	public void showAbout()
 	{
-		JOptionPane.showMessageDialog(frmMinecraftModInstaller,
-				"Not yet!",
-				"Minecraft Mod Installer",
-				JOptionPane.ERROR_MESSAGE);
+		OSXAboutDialog osx = new OSXAboutDialog();
+		osx.setVisible(true);
 	}
 	public Boolean quitApp()
 	{
@@ -324,6 +322,7 @@ public class MainApplicationWindow {
 		btnRemoveSelectedProfile.setBounds(23, 313, 173, 26);
 		frmMinecraftModInstaller.getContentPane().add(btnRemoveSelectedProfile);
 		
+		frmMinecraftModInstaller.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("res/icon.png")));
 		createComponentMap();
 	}
 	//
