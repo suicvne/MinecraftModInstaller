@@ -338,12 +338,15 @@ public class ModSelectionWindow extends JFrame
 		
 		if(SUCCESS == 0)
 		{
-			JOptionPane.showMessageDialog(contentPane, 
+			/*JOptionPane.showMessageDialog(contentPane, 
 					"Installed " + modZipList.getModel().getSize() + " mods successfully! Enjoy!", 
 					"Minecraft Mod Installer", 
-					JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.INFORMATION_MESSAGE);*/
 			progLabel.setVisible(false);
 			progBar.setVisible(false);
+			SuccessDialog sd = new SuccessDialog();
+			sd.setVisible(true);
+			this.setVisible(false);
 		}
 		if(SUCCESS == 1)
 		{
