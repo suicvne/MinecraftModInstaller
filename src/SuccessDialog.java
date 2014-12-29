@@ -36,7 +36,7 @@ public class SuccessDialog extends JFrame
 		setResizable(false);
 		setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 588, 372);
+		setBounds(100, 100, 675, 372);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -47,7 +47,7 @@ public class SuccessDialog extends JFrame
 		contentPane.add(lblYourModsWere);
 		
 		JLabel lblBeforePlayingBe = new JLabel("Before playing, be sure to select the version under \"edit profile\" in the Minecraft Launcher");
-		lblBeforePlayingBe.setBounds(10, 259, 486, 14);
+		lblBeforePlayingBe.setBounds(10, 259, 685, 14);
 		contentPane.add(lblBeforePlayingBe);
 		
 		JButton btnOk = new JButton("Exit");
@@ -56,22 +56,22 @@ public class SuccessDialog extends JFrame
 				System.exit(0);
 			}
 		});
-		btnOk.setBounds(483, 309, 89, 23);
+		btnOk.setBounds(558, 309, 89, 23);
 		contentPane.add(btnOk);
 		
 		JLabel lblIfYouWish = new JLabel("If you wish to install more, run the Mod Installer again selecting your new version profile");
-		lblIfYouWish.setBounds(10, 284, 486, 14);
+		lblIfYouWish.setBounds(10, 284, 637, 14);
 		contentPane.add(lblIfYouWish);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setBounds(10, 36, 562, 212);
+		panel.setBounds(10, 36, 649, 212);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(SuccessDialog.class.getResource("/res/success_image.png")));
-		lblNewLabel.setBounds(0, 0, 562, 212);
+		lblNewLabel.setBounds(54, 7, 554, 200);
 		panel.add(lblNewLabel);
 		//
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
