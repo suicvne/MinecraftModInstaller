@@ -77,7 +77,7 @@ public class ModSelectionWindow extends JFrame
 				nextButtonClick();
 			}
 		});
-		btnNext.setBounds(332, 371, 89, 23);
+		btnNext.setBounds(332, 371, 89, 30);
 		contentPane.add(btnNext);
 		
 		JButton btnExit = new JButton("Exit");
@@ -87,7 +87,7 @@ public class ModSelectionWindow extends JFrame
 				System.exit(0);
 			}
 		});
-		btnExit.setBounds(233, 371, 89, 23);
+		btnExit.setBounds(233, 371, 89, 30);
 		contentPane.add(btnExit);
 		
 		JButton button = new JButton("+");
@@ -97,7 +97,7 @@ public class ModSelectionWindow extends JFrame
 				addModButtonClick();
 			}
 		});
-		button.setBounds(10, 303, 41, 23);
+		button.setBounds(10, 303, 41, 31);
 		contentPane.add(button);
 		JButton button_1 = new JButton("-");
 		button_1.addActionListener(new ActionListener() {
@@ -106,7 +106,7 @@ public class ModSelectionWindow extends JFrame
 				removeModButtonClick();
 			}
 		});
-		button_1.setBounds(61, 303, 41, 23);
+		button_1.setBounds(61, 303, 41, 31);
 		contentPane.add(button_1);
 		
 		JList list = new JList();

@@ -63,7 +63,7 @@ public class MainApplicationWindow {
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				break;
 			case MacOS:
-				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+				//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				break;
 			}
 		}
@@ -90,6 +90,9 @@ public class MainApplicationWindow {
 					{
 						try 
 						{
+							System.setProperty("apple.laf.useScreenMenuBar", "true");
+							System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Minecraft Mod Installer");
+							
 							MainApplicationWindow window = new MainApplicationWindow();
 							window.frmMinecraftModInstaller.setVisible(true);
 						} 
@@ -130,8 +133,9 @@ public class MainApplicationWindow {
 		}
 		else if(OsCheck.getOperatingSystemType() == OsCheck.OSType.MacOS)
 		{
-			JOptionPane.showMessageDialog(null, "Minecraft Mod Installer is not yet supported on Mac OS X.", "Minecraft Mod Installer", JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
+			LoadFromOSX();
+			/*JOptionPane.showMessageDialog(null, "Minecraft Mod Installer is not yet supported on Mac OS X.", "Minecraft Mod Installer", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);*/
 		}
 		else
 		{
@@ -217,7 +221,43 @@ public class MainApplicationWindow {
 	}
 	private void LoadFromOSX()
 	{
+		//
 		OSXSpecifics();
+		//
+		File minecraftFolder = new File(System.getProperty("user.home") + "/Library/Application Support/minecraft/versions");
+		MINECRAFTVERSIONSPATH = System.getProperty("user.home") + "/Library/Application Support/minecraft/versions";
+		System.out.println("searching in '" + minecraftFolder.getAbsolutePath() + "' for jars..");
+		File[] filesList = minecraftFolder.listFiles();
+		int listCount = 0;
+		DefaultListModel listModel = new DefaultListModel();
+		JList dlVerList = (JList) getComponentByName(frmMinecraftModInstaller.getContentPane(), "dlVerList");
+		
+		if(dlVerList != null)
+		{
+			for(File file : filesList)
+			{
+				File verJar = new File(file.getAbsolutePath() + "\\*.jar");
+				if(verJar.getAbsolutePath().endsWith(".jar"))
+				{
+					listModel.addElement(file.getName());
+					listCount++;
+				}
+			}
+			if(listCount <= 0)
+			{
+				DefaultListModel empty = new DefaultListModel();
+				empty.addElement("No versions available!");
+				dlVerList.setModel(empty);
+			}
+			else
+			{
+				dlVerList.setModel(listModel);
+			}
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "dlVerList is null for some reason");
+		}
 	}
 	
 	/*
@@ -342,6 +382,8 @@ public class MainApplicationWindow {
 					LoadFromWindows();
 				else if(OsCheck.getOperatingSystemType() == OsCheck.OSType.Linux)
 					LoadFromLinux();
+				else if(OsCheck.getOperatingSystemType() == OsCheck.OSType.MacOS)
+					LoadFromOSX();
 			} 
 			catch (IOException e)
 			{
@@ -376,6 +418,8 @@ public class MainApplicationWindow {
 			case 0:
 				if(OsCheck.getOperatingSystemType() == OsCheck.OSType.Linux)
 					createNewProfile_unix(selectedItem);
+				else if(OsCheck.getOperatingSystemType() == OsCheck.OSType.MacOS)
+					createNewProfile_osx(selectedItem);
 				else if(OsCheck.getOperatingSystemType() == OsCheck.OSType.Windows)
 					createNewProfile_win32(selectedItem);
 				break;
@@ -451,6 +495,53 @@ public class MainApplicationWindow {
 				JOptionPane.QUESTION_MESSAGE);
 		int successOrNaw = 0; //0 will mean success, 1 will mean error
 		File verFolder = new File(System.getProperty("user.home") + "/.minecraft/versions"); //the folder that contains all the versions and such
+		File jarFolder_original = new File(verFolder + "/" + selectedItem); //The original profile to base this one off of
+		File jarFolder_new = new File(verFolder + "/" + newProfileName); //The new one that this will be copied to
+		File jar_old = new File(jarFolder_new + "/" + selectedItem + ".jar"); //The old jar which is renamed to whatever jar is
+		File json_old = new File(jarFolder_new + "/" + selectedItem + ".json"); //The old json which is renamed to whatever json is
+		File jar = new File(jarFolder_new + "/" + newProfileName + ".jar"); //The jar file in the new jarFolder
+		File json = new File(jarFolder_new + "/" + newProfileName + ".json"); //The json file in the new jarFolder
+		
+		try
+		{
+			org.apache.commons.io.FileUtils.copyDirectory(jarFolder_original, jarFolder_new);
+			System.out.println("copying '" + jarFolder_original + "' to '" + jarFolder_new + "'");
+			FileUtils.moveFile(jar_old, jar);
+			System.out.println("copying '" + jar_old + "' to '" + jar + "'");
+			FileUtils.moveFile(json_old, json);
+			System.out.println("copying '" + json_old + "' to '" + json + "'");
+			FileUtils.copyFile(json, new File(json.getAbsolutePath() + "_backup"));
+			System.out.println("backing up the new json just in case");
+			JSONEditor.JSONEditor(json.getAbsolutePath(), "id", newProfileName);
+			System.out.println("editing the new json");
+			successOrNaw = 0;
+		}
+		catch(Exception ex)
+		{
+			JOptionPane.showMessageDialog(frmMinecraftModInstaller, 
+					"There was an error while trying to create a new profile!\nException Message: " + ex.getMessage(), 
+					"Minecraft Mod Installer", JOptionPane.ERROR_MESSAGE);
+			successOrNaw = 1;
+		}
+		if(successOrNaw == 0)
+			JOptionPane.showMessageDialog(frmMinecraftModInstaller,
+					"Profile '" + newProfileName + "' was created successfully!",
+					"",
+					JOptionPane.INFORMATION_MESSAGE);
+		
+		ModSelectionWindow msw = new ModSelectionWindow(MINECRAFTVERSIONSPATH + File.separator + newProfileName, newProfileName);
+		msw.setVisible(true);
+		this.frmMinecraftModInstaller.setVisible(false);
+	}
+	//
+	private void createNewProfile_osx(String selectedItem)
+	{
+		String newProfileName = JOptionPane.showInputDialog(frmMinecraftModInstaller, 
+				"Enter the name of the new profile you'd like to create", 
+				"Minecraft Mod Installer", 
+				JOptionPane.QUESTION_MESSAGE);
+		int successOrNaw = 0; //0 will mean success, 1 will mean error
+		File verFolder = new File(System.getProperty("user.home") + "/Library/Application Support/minecraft/versions"); //the folder that contains all the versions and such
 		File jarFolder_original = new File(verFolder + "/" + selectedItem); //The original profile to base this one off of
 		File jarFolder_new = new File(verFolder + "/" + newProfileName); //The new one that this will be copied to
 		File jar_old = new File(jarFolder_new + "/" + selectedItem + ".jar"); //The old jar which is renamed to whatever jar is
