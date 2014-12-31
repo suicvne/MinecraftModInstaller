@@ -5,5 +5,5 @@ Type=Application
 Terminal=false
 Name=Minecraft Mod Installer
 Comment=A simple Java based mod installer for Minecraft
-Exec=$HOME/.mcmodinstaller/launch.sh
-Icon=$HOME/.mcmodinstaller/icon.png
+Exec=~/.mcmodinstaller/launch.sh
+Icon=~/.mcmodinstaller/icon.png
