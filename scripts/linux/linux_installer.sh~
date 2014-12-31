@@ -40,7 +40,6 @@ if [["$_java"]]; then
 	fi
 fi
 
-echo "Retrieving files.."
 #download
 wget -O "~/.mcmodinstaller/mcmodinstaller.jar" $LATESTJARURL
 wget -O "~/.mcmodinstaller/Minecraft Mod Installer.desktop" $DESKTOPLAUNCHERURL
