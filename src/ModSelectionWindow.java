@@ -37,7 +37,7 @@ import net.lingala.zip4j.util.Zip4jConstants;
 import org.apache.commons.io.FileUtils;
 
 
-public class ModSelectionWindow extends JFrame
+public class ModSelectionWindow extends JFrame implements Runnable
 {
 
 	private JPanel contentPane;
@@ -54,7 +54,7 @@ public class ModSelectionWindow extends JFrame
 		SELECTEDPROFILEPATH = _SELECTEDPROFILEPATH;
 		SELECTEDPROFILENAME = _SELECTEDPROFILENAME;
 		
-		setTitle("Minecraft Mod Installer");
+		setTitle("Minecraft Mod Installer - v1.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 447, 444);
 		contentPane = new JPanel();
@@ -72,6 +72,7 @@ public class ModSelectionWindow extends JFrame
 		
 		
 		JButton btnNext = new JButton("Next >");
+		btnNext.setName("nextButton");
 		btnNext.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				nextButtonClick();
@@ -81,6 +82,7 @@ public class ModSelectionWindow extends JFrame
 		contentPane.add(btnNext);
 		
 		JButton btnExit = new JButton("Exit");
+		btnExit.setName("exitButton");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -91,6 +93,7 @@ public class ModSelectionWindow extends JFrame
 		contentPane.add(btnExit);
 		
 		JButton button = new JButton("+");
+		button.setName("addButton");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -100,6 +103,7 @@ public class ModSelectionWindow extends JFrame
 		button.setBounds(10, 303, 41, 31);
 		contentPane.add(button);
 		JButton button_1 = new JButton("-");
+		button_1.setName("subtractButton");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
@@ -149,14 +153,14 @@ public class ModSelectionWindow extends JFrame
 		
 		JProgressBar progressBar = new JProgressBar();
 		progressBar.setIndeterminate(true);
-		progressBar.setName("mainProgressBar");
+		progressBar.setName("progBar");
 		progressBar.setVisible(false);
 		progressBar.setBounds(10, 337, 411, 23);
 		contentPane.add(progressBar);
 		
 		JLabel lblProgress = new JLabel("progress");
 		lblProgress.setVisible(false);
-		lblProgress.setName("mainProgressLabel");
+		lblProgress.setName("progLabel");
 		lblProgress.setBounds(10, 375, 213, 14);
 		contentPane.add(lblProgress);
 		//
@@ -207,18 +211,37 @@ public class ModSelectionWindow extends JFrame
 			///3. recompress jar to zip
 			///4. backup old jar
 			///5. rename the recompressed zip to jar, deleting the old jar if necessary
-			JProgressBar progBar = (JProgressBar)getComponentByName("mainProgressBar");
-			JLabel progLabel = (JLabel)getComponentByName("mainProgressLabel");
+			JProgressBar progBar = (JProgressBar)getComponentByName("progBar");
+			JLabel progLabel = (JLabel)getComponentByName("progLabel");
 			progBar.setVisible(true);
 			progLabel.setVisible(true);
 			progLabel.setText("Preparing to install mods..");
-			installMods(progLabel, progBar);
+			installMods();
 		}
 	}
 	
-	private void installMods(JLabel progLabel, JProgressBar progBar)
+	private void installMods()
+	{
+		JButton nextButton = (JButton)getComponentByName("nextButton");
+		JButton exitButton = (JButton)getComponentByName("exitButton");
+		JButton addButton = (JButton)getComponentByName("addButton");
+		JButton subtractButton = (JButton)getComponentByName("subtractButton");
+		
+		nextButton.setEnabled(false);
+		exitButton.setEnabled(false);
+		addButton.setEnabled(false);
+		subtractButton.setEnabled(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		Thread thrd = new Thread(this);
+		thrd.start();
+	}
+	
+	public void run()
 	{
 		JList modZipList = (JList)getComponentByName("modZipList");
+		JLabel progLabel = (JLabel)getComponentByName("progLabel");
+		JProgressBar progBar = (JProgressBar)getComponentByName("progBar");
 		File versionJar = new File(SELECTEDPROFILEPATH + File.separator + SELECTEDPROFILENAME + ".jar");
 		File versionJarAsZip = new File(SELECTEDPROFILEPATH + File.separator + SELECTEDPROFILENAME + ".zip");
 		File versionJar_backup = new File(versionJar + "_backup");

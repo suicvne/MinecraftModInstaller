@@ -60,10 +60,17 @@ public class MainApplicationWindow {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 				break;
 			case Linux:
+				//gtk theme is ugly
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				break;
 			case MacOS:
-				//UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+				//os x sets its own laf
+				break;
+			case Other:
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+				break;
+			default:
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				break;
 			}
 		}
@@ -90,6 +97,7 @@ public class MainApplicationWindow {
 					{
 						try 
 						{
+							//These properties seem to only work for Java 6, but I'm keeping them anyway
 							System.setProperty("apple.laf.useScreenMenuBar", "true");
 							System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Minecraft Mod Installer");
 							
@@ -98,11 +106,13 @@ public class MainApplicationWindow {
 						} 
 						catch (Exception e) 
 						{
+							JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 							e.printStackTrace();
 						}
 					}
 				});
 			}
+			
 		}
 	}
 
@@ -114,7 +124,6 @@ public class MainApplicationWindow {
 		//
 		initialize();
 		//
-		//frmMinecraftModInstaller.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("res/icon.png")));
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frmMinecraftModInstaller.setLocation(dim.width/2-frmMinecraftModInstaller.getSize().width/2, dim.height/2-frmMinecraftModInstaller.getSize().height/2);
 		//do form load events
@@ -293,12 +302,13 @@ public class MainApplicationWindow {
 	
 	/**
 	 * Initialize the contents of the frame.
+	 * @wbp.parser.entryPoint
 	 */
 	private void initialize() 
 	{
 		frmMinecraftModInstaller = new JFrame();
 		frmMinecraftModInstaller.setResizable(false);
-		frmMinecraftModInstaller.setTitle("Minecraft Mod Installer");
+		frmMinecraftModInstaller.setTitle("Minecraft Mod Installer - v1.0");
 		frmMinecraftModInstaller.setBounds(100, 100, 453, 399);
 		frmMinecraftModInstaller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
