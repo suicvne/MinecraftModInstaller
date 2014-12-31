@@ -86,34 +86,27 @@ public class MainApplicationWindow {
 				System.out.println("what the hell dude, i've tried everything and it looks like you don't even have the cross platform look and feel");
 			}
 		}
-		if(args.length > 0) //ensures that we're only run via the command line
+		//Run the form
+		EventQueue.invokeLater(new Runnable() 
 		{
-			if(args[0].equals("-cmdLine"))
+			public void run() 
 			{
-				//Run the form
-				EventQueue.invokeLater(new Runnable() 
+				try 
 				{
-					public void run() 
-					{
-						try 
-						{
-							//These properties seem to only work for Java 6, but I'm keeping them anyway
-							System.setProperty("apple.laf.useScreenMenuBar", "true");
-							System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Minecraft Mod Installer");
-							
-							MainApplicationWindow window = new MainApplicationWindow();
-							window.frmMinecraftModInstaller.setVisible(true);
-						} 
-						catch (Exception e) 
-						{
-							JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-							e.printStackTrace();
-						}
-					}
-				});
+					//These properties seem to only work for Java 6, but I'm keeping them anyway
+					System.setProperty("apple.laf.useScreenMenuBar", "true");
+					System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Minecraft Mod Installer");
+					
+					MainApplicationWindow window = new MainApplicationWindow();
+					window.frmMinecraftModInstaller.setVisible(true);
+				} 
+				catch (Exception e) 
+				{
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+				}
 			}
-			
-		}
+		});
 	}
 
 	/**
