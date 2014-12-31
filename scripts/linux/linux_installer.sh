@@ -43,7 +43,7 @@ fi
 echo "Retrieving files.."
 #download
 wget -O "~/.mcmodinstaller/mcmodinstaller.jar" $LATESTJARURL
-wget -O "~/.mcmodinstaller/Minecraft Mod Installer.desktop" $DESKTOPLAUNCHERURL
+wget -O "~/.local/share/applications/Minecraft Mod Installer.desktop" $DESKTOPLAUNCHERURL
 wget -O "~/.mcmodinstaller/icon.png" $ICONURL
 wget -O "~/.mcmodinstaller/launch.sh" $LAUNCHSCRIPTURL
 
