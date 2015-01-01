@@ -42,6 +42,8 @@ public class MainApplicationWindow {
 	private HashMap componentMap;
 	public String selectedProfile;
 	public String MINECRAFTVERSIONSPATH;
+	public static Boolean ISWINDOWSEXE;
+	public static Boolean ISOSXAPP;
 	/**
 	 * Launch the application.
 	 */
@@ -86,6 +88,19 @@ public class MainApplicationWindow {
 				System.out.println("what the hell dude, i've tried everything and it looks like you don't even have the cross platform look and feel");
 			}
 		}
+		
+		if(args.length > 0)
+		{
+			//these args are used for the updating portion
+			for(int i = 0; i < args.length; i++)
+			{
+				if(args[i].equals("-win32Exe"))
+					ISWINDOWSEXE = true;
+				if(args[i].equals("-osxAppBundle"))
+					ISOSXAPP = true;
+			}
+		}
+		
 		//Run the form
 		EventQueue.invokeLater(new Runnable() 
 		{

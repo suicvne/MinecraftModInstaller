@@ -163,10 +163,67 @@ public class ModSelectionWindow extends JFrame implements Runnable
 		lblProgress.setName("progLabel");
 		lblProgress.setBounds(10, 375, 213, 14);
 		contentPane.add(lblProgress);
+		
+		JButton button_2 = new JButton("\u2227");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(list.getSelectedIndex() >= 1)
+				{
+					try
+					{
+						int indexOf = list.getSelectedIndex();
+						swapElements(indexOf, indexOf - 1);
+						indexOf -= 1;
+						list.setSelectedIndex(indexOf);
+						list.updateUI();	
+					}
+					catch(ArrayIndexOutOfBoundsException e)
+					{/*a completely useless catch exception, hooray!*/}
+				}
+			}
+		});
+		button_2.setName("upButton");
+		button_2.setBounds(316, 303, 51, 31);
+		contentPane.add(button_2);
+		
+		JButton button_3 = new JButton("\u2228");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				if(list.getSelectedIndex() >= 1)
+				{
+					try
+					{
+						int indexOf = list.getSelectedIndex();
+						swapElements(indexOf, indexOf + 1);
+						indexOf += 1;
+						list.setSelectedIndex(indexOf);
+						list.updateUI();	
+					}
+					catch(ArrayIndexOutOfBoundsException e)
+					{/*a completely useless catch exception, hooray!*/}
+				}
+			}
+		});
+		button_3.setName("downButton");
+		button_3.setBounds(370, 303, 51, 31);
+		contentPane.add(button_3);
 		//
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("res/icon.png")));
+	}
+	
+	private void swapElements(int pos1, int pos2)
+	{
+		JList modZipList = (JList) getComponentByName("modZipList");
+		DefaultListModel model = (DefaultListModel)modZipList.getModel();
+		
+		String tmp = (String) modZipList.getModel().getElementAt(pos1);
+		
+		model.set(pos1, model.get(pos2));
+		model.set(pos2, tmp);
 	}
 	
 	private void removeModButtonClick()
@@ -226,11 +283,15 @@ public class ModSelectionWindow extends JFrame implements Runnable
 		JButton exitButton = (JButton)getComponentByName("exitButton");
 		JButton addButton = (JButton)getComponentByName("addButton");
 		JButton subtractButton = (JButton)getComponentByName("subtractButton");
+		JButton upButton = (JButton)getComponentByName("upButton");
+		JButton downButton = (JButton)getComponentByName("downButton");
 		
 		nextButton.setEnabled(false);
 		exitButton.setEnabled(false);
 		addButton.setEnabled(false);
 		subtractButton.setEnabled(false);
+		upButton.setEnabled(false);
+		downButton.setEnabled(false);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		Thread thrd = new Thread(this);
