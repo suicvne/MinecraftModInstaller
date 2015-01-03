@@ -359,7 +359,26 @@ public class ModSelectionWindow extends JFrame implements Runnable
 					File sysClassOverride = new File(dirJarExtraction + File.separator + i.getName());
 					sysClassOverride.delete();
 				}
-				FileUtils.moveFile(i, new File(dirJarExtraction + File.separator + i.getName()));
+				if(i.isDirectory())
+				{
+					File dirToCheck = new File(dirJarExtraction + File.separator + i.getName());
+					File[] dirToCheckList = new File(dirJarExtraction + File.separator + i.getName()).listFiles();
+					if(dirToCheck.exists())
+					{
+						for(File x : dirToCheckList)
+						{
+							if(new File(dirJarExtraction + File.separator + x.getName()).exists())
+							{
+								File override = new File(dirJarExtraction + File.separator + x.getName());
+								FileUtils.moveDirectory(i, new File(dirJarExtraction + File.separator + x.getName()));
+							}
+						}
+					}
+					else
+						FileUtils.moveDirectory(i, new File(dirJarExtraction + File.separator + i.getName()));
+				}
+				else
+					FileUtils.moveFile(i, new File(dirJarExtraction + File.separator + i.getName()));
 			}
 			tempModDirFiles = null;
 			progLabel.setText("Deleting META-INF..");
@@ -442,6 +461,7 @@ public class ModSelectionWindow extends JFrame implements Runnable
 				versionJarAsZip.delete();
 			} catch (IOException e)
 			{
+				this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 				JOptionPane.showMessageDialog(contentPane,
 						"There was an error trying to restore the Jar backup!\n\nError Message: " + e.getMessage(),
 						"Minecraft Mod Installer",
